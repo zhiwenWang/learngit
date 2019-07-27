@@ -1,52 +1,180 @@
-##�����汾��
+##创建版本库
 $ git init
-��һ����������git add����Git�����ļ����ӵ��ֿ⣺ʹ������git add <file>��ע�⣬�ɷ������ʹ�ã����Ӷ���ļ�
-�ڶ�����������git commit����Git�����ļ��ύ���ֿ⣺
-git commit���-m����������Ǳ����ύ��˵�������������������ݣ���Ȼ�����������ģ���������ܴ���ʷ��¼�﷽����ҵ��Ķ���¼��
+第一步，用命令git add告诉Git，把文件添加到仓库：使用命令git add <file>，注意，可反复多次使用，添加多个文件
+第二步，用命令git commit告诉Git，把文件提交到仓库：
+git commit命令，-m后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录。
 
 git init
 git add <file>
 git commit -m <message>
+git  status  查看当前git的状态
 
-ΪʲôGit�����ļ���Ҫadd��commitһ�������أ���Ϊcommit����һ���ύ�ܶ��ļ�����������Զ��add��ͬ���ļ�
+为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件
+
+##提交某个文件
+第一种方法：
+  先将指定文件添加到 暂存区，然后提交所有 暂存区 的文件
+	git add index.html about.html
+	git commit -m '我提交了所有 暂存区 的文件'
+
+第二种方法：
+  此方式可以提交分别来自不同地方的文件，比如 工作区的 和 暂存区的
+  git commit -o index.html about.html -m '我同时提交了 工作区的index.html 和 暂存区的about.html 这两个文件'
 
 
-##����Զ�̿�
-���Ѿ��ڱ��ش�����һ��Git�ֿ��������GitHub����һ��Git�ֿ⣬�������������ֿ����Զ��ͬ����
-������GitHub�ϵĲֿ�ȿ�����Ϊ���ݣ��ֿ�����������ͨ���òֿ���Э��
 
-GitHub�½��ֿ⣬���Դ�����ֿ��¡���µĲֿ⣬Ҳ���԰�һ�����еı��زֿ���֮������Ȼ�󣬰ѱ��زֿ���������͵�GitHub�ֿ�
+
+##从远程库克隆
+远程库已经准备好了，下一步是用命令git clone克隆一个本地库：
+
+每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
+git push origin master
+
+
+
+##版本回退
+
+git log命令显示从最近到最远的提交日志，我们可以看到3次提交，最近的一次是append GPL，上一次是add distributed，最早的一次是wrote a readme file。
+
+如果嫌输出信息太多，看得眼花缭乱的，可以试试加上--pretty=oneline参数：
+
+
+$ git reset --hard HEAD^
+
+顺便把工作区的文件更新了。所以你让HEAD指向哪个版本号，你就把当前版本定位在哪
+
+
+现在，你回退到了某个版本，关掉了电脑，第二天早上就后悔了，想恢复到新版本怎么办？找不到新版本的commit id怎么办？
+$ git reflog
+
+
+HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
+穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
+要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
+
+##工作区和暂存区
+前面讲了我们把文件往Git版本库里添加的时候，是分两步执行的：
+
+第一步是用git add把文件添加进去，实际上就是把文件修改添加到暂存区；
+
+第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
+
+
+
+##管理修改
+第一次修改完  git add  第二次修改  接下来  git commit 第二次修改的内容没有提交
+
+那怎么提交第二次修改呢？你可以继续git add再git commit，也可以别着急提交第一次修改，先git add第二次修改，再git commit，就相当于把两次修改合并后一块提交了：
+
+第一次修改 -> git add -> 第二次修改 -> git add -> git commit
+
+Git是如何跟踪修改的，每次修改，如果不用git add到暂存区，那就不会加入到commit中。
+
+
+##撤销修改
+场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令
+      git checkout -- file。
+
+场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，
+   第一步用命令git reset HEAD <file>，就回到了场景1，第二步按场景1操作。
+
+场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，   
+   git log   git relog
+   git reset --hard HEAD^
+   
+
+
+##删除文件
+一是确实要从版本库中删除该文件，那就用命令git rm删掉，并且git commit：
+  先手动删除文件，然后使用git rm <file>和git add<file>效果是一样的。
+  
+另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本：
+$ git checkout -- test.txt
+
+git checkout其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。
+
+
+##分支管理
+git branch命令查看当前分支
+git branch命令会列出所有分支，当前分支前面会标一个*号
+git checkout xx 切换
+git checkout命令加上-b参数表示创建并切换，相当于以下两条命令：
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>
+
+创建+切换分支：git checkout -b <name>
+
+合并某分支到当前分支：git merge <name>
+
+删除分支：git branch -d <name>
+
+
+##无法切换分支；
+分支无法切换时可以先stash或者commit这个分支在切换：
+1.git stash后，可以切换到别的分支
+2.切回来，git stash apply 回到最新的储藏
+ git stash list 显示多次的储藏，根据显示的版本回到之前的储藏
+
+
+git切换分支报错 :error: pathspec 'origin/XXX' did not match any file known to git.
+解决方法： 
+1、执行命令git fetch取回所有分支的更新
+
+2、执行git branch -a可以看到test分支（已经更新分支信息）
+
+3、切换分支git checkout test
+
+
+推送分支：
+推送分支，就是把该分支上的所有本地提交推送到远程库。
+$ git push origin master
+如果要推送其他分支，比如dev，就改成
+$ git push origin dev
+
+
+
+
+
+##添加远程库
+你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步，
+这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作
+
+GitHub新建仓库，可以从这个仓库克隆出新的仓库，也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库
 
 $ git remote add origin git@github.com:michaelliao/learngit.git
-��ǧ��ע�⣬�������michaelliao�滻�����Լ���GitHub�˻�����
-�������ڱ��ع����ľ����ҵ�Զ�̿⣬����û�����⣬�������Ժ��������Ʋ���ȥ�ģ���Ϊ���SSH Key��Կ�����ҵ��˻��б��С�
+请千万注意，把上面的michaelliao替换成你自己的GitHub账户名，
+否则，你在本地关联的就是我的远程库，关联没有问题，但是你以后推送是推不上去的，因为你的SSH Key公钥不在我的账户列表中。
 
-���Ӻ�Զ�̿�����־���origin������GitĬ�ϵĽз���Ҳ���Ըĳɱ�ģ�����origin�������һ����֪����Զ�̿⡣
+添加后，远程库的名字就是origin，这是Git默认的叫法，也可以改成别的，但是origin这个名字一看就知道是远程库。
 
-��һ�����Ϳ��԰ѱ��ؿ�������������͵�Զ�̿���
+下一步，就可以把本地库的所有内容推送到远程库上
 
-�ѱ��ؿ���������͵�Զ�̣���git push���ʵ�����ǰѵ�ǰ��֧master���͵�Զ�̡�
+把本地库的内容推送到远程，用git push命令，实际上是把当前分支master推送到远程。
 $ git push -u origin master
 
-����Զ�̿��ǿյģ����ǵ�һ������master��֧ʱ��������-u������Git������ѱ��ص�master��֧�������͵�Զ���µ�master��֧��
-����ѱ��ص�master��֧��Զ�̵�master��֧�������������Ժ�����ͻ�����ȡʱ�Ϳ��Լ����
+由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，
+还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
 
-��������ֻҪ���������ύ���Ϳ���ͨ�����
+从现在起，只要本地作了提交，就可以通过命令：
 $ git push origin master
 
 
-##����������Զ�̿�ᱨ��
+##如果多次添加远程库会报错
 mfhj-dz-001-236@beebank MINGW64 /d/gitstudy (master)
 $ git remote add origin https://github.com/zhiwenWang/learngit.git
 fatal: remote origin already exists.
-���������
-ֻҪ������
-1����ɾ��
+解决方案：
+只要两步：
+1、先删除
 $ git remote rm origin
-2���ٴ�ִ�����ӾͿ����ˡ�
+2、再次执行添加就可以了。
 
 
-##��һ���������ݵ�Զ����Ҫ��֤
+##第一次推送数据到远端需要认证
 *** Please tell me who you are.
 Run
   git config --global user.email "you@example.com"
