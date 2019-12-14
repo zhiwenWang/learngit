@@ -1,337 +1,170 @@
-##创建版本库
-$ git init
-第一步，用命令git add告诉Git，把文件添加到仓库：使用命令git add <file>，注意，可反复多次使用，添加多个文件
-第二步，用命令git commit告诉Git，把文件提交到仓库：
-git commit命令，-m后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录。
+������  �ݴ���  �汾�� Զ�̰汾��
 
+
+
+�Ƴ�ĳЩ������Ϣ
+git config --unset user.email
+
+һ.���زֿ��ʼ��
 git init
-git add <file>
-git commit -m <message>
-git  status  查看当前git的状态
-
-为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件
-
-##提交某个文件
-第一种方法：
-  先将指定文件添加到 暂存区，然后提交所有 暂存区 的文件
-	git add index.html about.html
-	git commit -m '我提交了所有 暂存区 的文件'
-
-第二种方法：
-  此方式可以提交分别来自不同地方的文件，比如 工作区的 和 暂存区的
-  git commit -o index.html about.html -m '我同时提交了 工作区的index.html 和 暂存区的about.html 这两个文件'
-
-##查看用户名和邮箱地址
+##�����汾��
+$ git init
+##��Զ�̿��¡
+Զ�̿��Ѿ�׼�����ˣ���һ����������git clone��¡һ�����ؿ⣺
+��.����ǩ��
+1.��Ŀ����
+git config user.name zhang
+git config user.email 222@qq.com
+2.ȫ�ּ���
+git config --global user.name zp
+git config --global user.email 29138386@qq.com
+##�鿴�û����������ַ
 $ git config user.name
 $ git config user.email
+�鿴ȫ����������Ϣ
+git config -l
 
+ǩ�����ڱ�ʶ���������ݣ���Զ�˲ֿ���ʾ���ύ��
+ǩ��ʹ�þͽ�ԭ����Ŀ����������ȫ��
+git������Ϣ������ .git/config �ļ�
 
-##从远程库克隆
-远程库已经准备好了，下一步是用命令git clone克隆一个本地库：
+��.�鿴���������ݴ���״̬
+git status
 
-每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
-git push origin master
+�ġ��ύ�ļ�
+git add <file>
+   git add index.html about.html
+   �Ƚ�ָ���ļ����ӵ� �ݴ�����Ȼ���ύ���� �ݴ��� ���ļ�
+   git add . ������git�ѵ�ǰĿ¼����Ŀ¼�е��ļ������ӵ��汾����
+   ע�⣬�ɷ������ʹ�ã����Ӷ���ļ�
+git commit -m <message>
+  ����Git�����ļ��ύ���ֿ�
+  -m����������Ǳ����ύ��˵�������������������ݣ���Ȼ�����������ģ���������ܴ���ʷ��¼�﷽����ҵ��Ķ���¼��
 
+  ΪʲôGit�����ļ���Ҫadd��commitһ�������أ���Ϊcommit����һ���ύ�ܶ��ļ�����������Զ��add��ͬ���ļ�
+  
+�˽⣺
+  �����ύ�ֱ����Բ�ͬ�ط����ļ������� �������� �� �ݴ�����
+  git commit -o index.html about.html -m '��ͬʱ�ύ�� ��������index.html �� �ݴ�����about.html �������ļ�'
 
+##���������ݴ���
+���潲�����ǰ��ļ���Git�汾�������ӵ�ʱ���Ƿ�����ִ�еģ�
+��һ������git add���ļ����ӽ�ȥ��ʵ���Ͼ��ǰ��ļ��޸Ĵӹ��������ӵ��ݴ�����
+�ڶ�������git commit�ύ���ģ�ʵ���Ͼ��ǰ��ݴ��������������ύ���汾�⣨����⣩��ǰ��֧��
 
-##版本回退
+�塢�鿴�ύ��¼
+git log 
+   ��ʾ�汾����һϵ�е����ύ����־
+git log pretty=oneline ���ģʽ�鿴�ύ��¼
+git log oneline ����ģʽ�鿴�ύ��¼
+git reflog �Ƚ϶����Ϣ�鿴�ύ��¼ �˷�ʽ�ع�ʱ�ȽϷ���
 
-git log命令显示从最近到最远的提交日志，我们可以看到3次提交，最近的一次是append GPL，上一次是add distributed，最早的一次是wrote a readme file。
+�˽� git show 
+	git show  xxxxxxxx �鿴�ύ����ϸ��Ϣ
+�˽�  git diff xxxxx01  xxxxxx02 
+	git diff 28586adb438999fa00263e27767332c8020f6a47 03ff0fef64450b79f6092adfb8613660f876517f�鿴�ύ����
+gitk  �鿴�ύͼ
+    ����ͨ���鿴�ύͼ��ֱ�ۿ���git show  git  diff ���
+�˽⣺
+git blame ��λ����������
+git bisect ������������汾
+git grep ����ָ�����ݵ�λ��
+git log ����ָ�����ݵ���ʷ��¼
 
-如果嫌输出信息太多，看得眼花缭乱的，可以试试加上--pretty=oneline参数：
+�����汾����
 
+git reset --hard [����ֵ]
+git reset  --hard  HEAD
+reset �������������Ա�
+--soft �ڱ��ؿ��ƶ�ָ��
+--mixed �ڱ��ؿ��ƶ�ָ�룬�����ݴ���
+--hard �ڱ��ؿ��ƶ�ָ�룬�����ݴ��������ù�����
 
-$ git reset --hard HEAD^
-
-顺便把工作区的文件更新了。所以你让HEAD指向哪个版本号，你就把当前版本定位在哪
-
-
-现在，你回退到了某个版本，关掉了电脑，第二天早上就后悔了，想恢复到新版本怎么办？找不到新版本的commit id怎么办？
+$ git reset --hard HEAD
+˳��ѹ��������ļ������ˡ���������HEADָ���ĸ��汾�ţ���Ͱѵ�ǰ�汾��λ����
+���ڣ�����˵���ĳ���汾���ص��˵��ԣ��ڶ������Ͼͺ���ˣ���ָ����°汾��ô�죿�Ҳ����°汾��commit id��ô�죿
 $ git reflog
 
+HEADָ��İ汾���ǵ�ǰ�汾����ˣ�Git���������ڰ汾����ʷ֮�䴩��ʹ������git reset --hard commit_id��
+����ǰ����git log���Բ鿴�ύ��ʷ���Ա�ȷ��Ҫ���˵��ĸ��汾��
+Ҫ�ط�δ������git reflog�鿴������ʷ���Ա�ȷ��Ҫ�ص�δ�����ĸ��汾��
 
-HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
-穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
-要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
+##�����޸�
+ֻ�ڹ������������޸ģ����л�ԭ
+   git checkout -- file��
+   git checkout��ʵ���ð汾����İ汾�滻�������İ汾�����۹��������޸Ļ���ɾ���������ԡ�һ����ԭ��
 
-##工作区和暂存区
-前面讲了我们把文件往Git版本库里添加的时候，是分两步执行的：
+�������޸�->�ݴ��������л�ԭ
+   ��һ��������git reset HEAD <file>���ͻص��˹�����
+   �ڶ�����git checkout -- file�� ��������ԭ
 
-第一步是用git add把文件添加进去，实际上就是把文件修改添加到暂存区；
-第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
-
-##管理修改
-第一次修改完  git add  第二次修改  接下来  git commit 第二次修改的内容没有提交
-那怎么提交第二次修改呢？你可以继续git add再git commit，也可以别着急提交第一次修改，先git add第二次修改，再git commit，就相当于把两次修改合并后一块提交了：
-
-第一次修改 -> git add -> 第二次修改 -> git add -> git commit
-
-Git是如何跟踪修改的，每次修改，如果不用git add到暂存区，那就不会加入到commit中。
-
-
-##撤销修改
-场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令
-      git checkout -- file。
-
-场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，
-   第一步用命令git reset HEAD <file>，就回到了场景1，第二步按场景1操作。
-
-场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，   
+�Ѿ��ύ���汾�⣬���л�ԭ�� 
    git log   git relog
-   git reset --hard HEAD^
-   
+*****git reset --hard HEAD
 
-
-##删除文件
-一是确实要从版本库中删除该文件，那就用命令git rm删掉，并且git commit：
-  先手动删除文件，然后使用git rm <file>和git add<file>效果是一样的。
-  
-另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本：
-$ git checkout -- test.txt
-
-git checkout其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。
-
-
-##分支管理
-git branch命令查看当前分支
-git branch命令会列出所有分支，当前分支前面会标一个*号
-git checkout xx 切换
-git checkout命令加上-b参数表示创建并切换，相当于以下两条命令：
-
-查看分支：git branch
-
-创建分支：git branch <name>
-
-切换分支：git checkout <name>
-
-创建+切换分支：git checkout -b <name>
-
-合并某分支到当前分支：git merge <name>
-
-删除分支：git branch -d <name>
-
-
-##无法切换分支；
-分支无法切换时可以先stash或者commit这个分支在切换：
-1.git stash后，可以切换到别的分支
-2.切回来，git stash apply 回到最新的储藏
- git stash list 显示多次的储藏，根据显示的版本回到之前的储藏
-
-常用git stash命令：
-（1）git stash save "save message"  : 执行存储时，添加备注，方便查找，只有git stash 也要可以的，但查找时不方便识别。
-（2）git stash list  ：查看stash了哪些存储
-（3）git stash show ：显示做了哪些改动，默认show第一个存储,如果要显示其他存贮，后面加stash@{$num}，比如第二个 git stash show stash@{1}
-（4）git stash show -p : 显示第一个存储的改动，如果想显示其他存存储，命令：git stash show  stash@{$num}  -p ，比如第二个：git stash show  stash@{1}  -p
-（5）git stash apply :应用某个存储,但不会把存储从存储列表中删除，默认使用第一个存储,即stash@{0}，如果要使用其他个，git stash apply stash@{$num} ， 比如第二个：git stash apply stash@{1} 
-（6）git stash pop ：命令恢复之前缓存的工作目录，将缓存堆栈中的对应stash删除，并将对应修改应用到当前的工作目录下,默认为第一个stash,即stash@{0}，如果要应用并删除其他stash，命令：git stash pop stash@{$num} ，比如应用并删除第二个：git stash pop stash@{1}
-（7）git stash drop stash@{$num} ：丢弃stash@{$num}存储，从列表中删除这个存储
-（8）git stash clear ：删除所有缓存的stash
-
-
-git切换分支报错 :error: pathspec 'origin/XXX' did not match any file known to git.
-解决方法： 
-1、执行命令git fetch取回所有分支的更新
-
-2、执行git branch -a可以看到test分支（已经更新分支信息）
-
-3、切换分支git checkout test
-
-
-推送分支：
-推送分支，就是把该分支上的所有本地提交推送到远程库。
-$ git push origin master
-如果要推送其他分支，比如dev，就改成
-$ git push origin dev
-
-##git fetch 和git pull 的差别
-1、git fetch 相当于是从远程获取最新到本地，不会自动merge，如下指令：
-
-　git fetch orgin master //将远程仓库的master分支下载到本地当前branch中
-　git log -p master  ..origin/master //比较本地的master分支和origin/master分支的差别
-　git merge origin/master //进行合并
-也可以用以下指令：
-git fetch origin master:tmp //从远程仓库master分支获取最新，在本地建立tmp分支
-
-git diff tmp //將當前分支和tmp進行對比
-
-git merge tmp //合并tmp分支到当前分支
- 
-
-2. git pull：相当于是从远程获取最新版本并merge到本地
-
-git pull origin master
-git pull 相当于从远程获取最新版本并merge到本地
-
-在实际使用中，git fetch更安全一些
-
-
-
-
-
-##添加远程库
-你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步，
-这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作
-
-GitHub新建仓库，可以从这个仓库克隆出新的仓库，也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库
-
-$ git remote add origin git@github.com:michaelliao/learngit.git
-请千万注意，把上面的michaelliao替换成你自己的GitHub账户名，
-否则，你在本地关联的就是我的远程库，关联没有问题，但是你以后推送是推不上去的，因为你的SSH Key公钥不在我的账户列表中。
-
-添加后，远程库的名字就是origin，这是Git默认的叫法，也可以改成别的，但是origin这个名字一看就知道是远程库。
-
-下一步，就可以把本地库的所有内容推送到远程库上
-
-把本地库的内容推送到远程，用git push命令，实际上是把当前分支master推送到远程。
-$ git push -u origin master
-
-由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，
-还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
-
-从现在起，只要本地作了提交，就可以通过命令：
-$ git push origin master
-
-
-##如果多次添加远程库会报错
-mfhj-dz-001-236@beebank MINGW64 /d/gitstudy (master)
-$ git remote add origin https://github.com/zhiwenWang/learngit.git
-fatal: remote origin already exists.
-解决方案：
-只要两步：
-1、先删除
-$ git remote rm origin
-2、再次执行添加就可以了。
-
-
-##第一次推送数据到远端需要认证
+�ߡ����ͷ�֧
+git push origin master
+  ÿ�α����ύ��ֻҪ�б�Ҫ���Ϳ���ʹ������git push origin master���������޸ģ�
+  ##��һ���������ݵ�Զ����Ҫ��֤
 *** Please tell me who you are.
 Run
   git config --global user.email "you@example.com"
   git config --global user.name "Your Name"
 
 
-张鹏
-git 常用命令  http://wiki.i.beebank.com/pages/viewpage.action?pageId=22522821
 
-git常用基本命令
-转至元数据结尾
-由 张鹏创建, 最后修改于1分钟以前 转至元数据起始
-一.本地仓库初始化
-git init
-二.设置签名
-1.项目级别
-git config user.name zhang
+git  rm  git commit 
+    ɾ���汾����ļ�
+git mv  git commit 
+    �������ļ�
 
-git config user.email 222@qq.com
+ɾ���ˣ���Ϊ�汾���ﻹ���أ����Կ��Ժ����ɵذ���ɾ���ļ��ָ������°汾��
+$ git checkout -- test.txt
 
-2.全局级别
-git config --global user.name zp
 
-git config --global user.email 29138386@qq.com
+   
 
-签名用于标识开发者身份，如远端仓库显示的提交者
 
-签名使用就近原则，项目级别优先于全局
+##��֧����
+�鿴��֧��git branch
+������֧��git branch <name>
+�л���֧��git checkout <name>
+����+�л���֧��git checkout -b <name>
+�ϲ�ĳ��֧����ǰ��֧��git merge <name>
+ɾ����֧��git branch -d <name>
 
-git配置信息保存在 .git/config 文件
 
-三.查看工作区、暂存区状态
-git status
-四.提交
-1.将文件提交到暂存区
-git add 文件名
-2.从版本控制中删除（慎用！！！！仅删除本人编写文件时使用，千万别对其他人创建的文件使用此命令）
-git rm --cached [文件名]
-会删除暂存区、本地库、提交后会修改远程分支，不会删除工作区文件
+##�޷��л���֧��
+��֧�޷��л�ʱ������stash����commit�����֧���л���
 
-3.提交
-git commit [文件名]
+����git stash���
+��1��git stash save "save message"  : ִ�д洢ʱ�����ӱ�ע��������ң�ֻ��git stash ҲҪ���Եģ�������ʱ������ʶ��
+��2��git stash list  ���鿴stash����Щ�洢
+��3��git stash show ����ʾ������Щ�Ķ���Ĭ��show��һ���洢,���Ҫ��ʾ���������������stash@{$num}������ڶ��� git stash show stash@{1}
+��4��git stash show -p : ��ʾ��һ���洢�ĸĶ����������ʾ������洢�����git stash show  stash@{$num}  -p ������ڶ�����git stash show  stash@{1}  -p
+��5��git stash apply :Ӧ��ĳ���洢,������Ѵ洢�Ӵ洢�б���ɾ����Ĭ��ʹ�õ�һ���洢,��stash@{0}�����Ҫʹ����������git stash apply stash@{$num} �� ����ڶ�����git stash apply stash@{1} 
+��6��git stash pop ������ָ�֮ǰ����Ĺ���Ŀ¼���������ջ�еĶ�Ӧstashɾ����������Ӧ�޸�Ӧ�õ���ǰ�Ĺ���Ŀ¼��,Ĭ��Ϊ��һ��stash,��stash@{0}�����ҪӦ�ò�ɾ������stash�����git stash pop stash@{$num} ������Ӧ�ò�ɾ���ڶ�����git stash pop stash@{1}
+��7��git stash drop stash@{$num} ������stash@{$num}�洢�����б���ɾ������洢
+��8��git stash clear ��ɾ�����л����stash
 
-git commit -m [提交信息] [文件名]
 
-4.查看提交记录
-git log
+git�л���֧���� :error: pathspec 'origin/XXX' did not match any file known to git.
+��������� 
+1��ִ������git fetchȡ�����з�֧�ĸ���
+2��ִ��git branch -a���Կ���test��֧���Ѿ����·�֧��Ϣ��
+3���л���֧git checkout test
 
-git log pretty=oneline 最简模式查看提交记录
+���ͷ�֧��
+���ͷ�֧�����ǰѸ÷�֧�ϵ����б����ύ���͵�Զ�̿⡣
+$ git push origin master
+���Ҫ����������֧������dev���͸ĳ�
+$ git push origin dev
 
-git log oneline 精简模式查看提交记录
+##git fetch ��git pull �Ĳ��
+1��git fetch �൱���Ǵ�Զ�̻�ȡ���µ����أ������Զ�merge������ָ� 
+2. git pull���൱���Ǵ�Զ�̻�ȡ���°汾��merge������
+git pull origin master
+git pull �൱�ڴ�Զ�̻�ȡ���°汾��merge������
 
-git reflog 比较多的信息查看提交记录 此方式回滚时比较方便
 
-五.版本回退
-1.回退
-git reset --hard [索引值]
-reset 命令三个参数对比
 
---soft 在本地库移动指针
-
---mixed 在本地库移动指针，重置暂存区
-
---hard 在本地库移动指针，重置暂存区，重置工作区
-
-2.找回
-找回提交到本地库的删除文件：指针指向历史记录
-
-找回提交到暂存区的删除文件：指针指向HEAD
-
-3.对比文件
-比较文件 git diff [文件名] 无其他参数表示和暂存区进行比较
-
-git diff [本地库中历史版本] [文件名]
-
-git diff 不带文件名，比较工作区和暂存区中多个文件
-
-六.分支
-1.查看分支
-git branch -v 查看所有分支
-
-git branch [分支名] 创建分支
-
-git checkout [分支名] 切换本地分支
-
-2.合并分支
-第一步 git checkout [被合并的分支] 接受修改的分支必须是当前分支
-
-第二步 git merge [有变更的分支] 执行merge命令
-
-七.解决冲突
-两个分支合并时 ，修改了同一个文件的相同位置，且内容不相同，会产生冲突
-, 此时需要手动解决冲突
-
-第一步 编辑文件，删除特殊符号 HEAD 标记的是当前分支的版本内容 ，[分支名]（如master）显示的合并过来分支的内容
-
-第二步 把文件修改到满意的程度
-
-第三步 git add [文件名]
-
-第四步 git commit -m "日志信息" 需要注意的是，解决冲突的提交，此时不能后面跟文件名
-
-八.远程推送
-1.查看远程地址
-git remote -v
-2.添加远程仓库地址
-git remote add origin [远程仓库地址] origin 是别名 ，代表远程地址的别名
-九.从远端拉取新项目
-1.拉取分支
-git clone [远端项目地址]
-
-clone 命令三个作用
-
-完成把远程仓库内容拉取到本地
-
-创建远程仓库地址别名 origin
-
-初始化本地库
-
-git pull origin [分支名] 拉取远程更新
-
-pull命令 是fetch 和merge两个命令的组合
-
-2.切换分支
-git checkout origin/master 切换到远程的master
-
-git checkout master 切换到本地的master
-
-git fetch origin/master git fetch [远程地址别名]/[远程分支名] 将远端更新拉取到本地
-
-git merge origin/master git merge [远程地址别名]/[远程分支名] 将远程更新合并到本地
